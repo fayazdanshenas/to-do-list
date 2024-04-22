@@ -1,7 +1,9 @@
 import React, { useState, FormEventHandler } from "react";
 import { TrashIcon, PencilIcon } from '@heroicons/react/solid';
 import { Button, Dialog, DialogHeader, DialogBody, DialogFooter } from "@material-tailwind/react";
-
+import Modal from "@mui/material/Modal";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 interface Task {
  id: number;
  text: string;
@@ -65,32 +67,43 @@ const Task: React.FC<TaskProps> = ({ tasks, onEditTask, onDeleteTask }) => {
         ))}
       </ul>
       {modalOpen && (
-        <Dialog open={modalOpen} handler={handleCloseModal} className="bg-orange-500 flex flex-col items-center justify-center w-1/3 h-1/3">
-          <DialogHeader>{modalType === 'delete' ? 'Delete Task' : 'Edit Task'}</DialogHeader>
-          <DialogBody>
-            {modalType === 'delete' ? (
-              <h3 className='text-lg'>Are you sure, you want to delete this task?</h3>
-            ) : (
-              <form onSubmit={handleSubmitEditTask}>
-                <input
-                 value={editTaskValue}
-                 onChange={(e) => setEditTaskValue(e.target.value)}
-                 type="text"
-                 placeholder="Type here"
-                 className="input input-bordered w-full"
-                />
-              </form>
-            )}
-          </DialogBody>
-          <DialogFooter>
-            <button type="submit" className="btn" onClick={modalType === 'delete' ? handleSubmitDeleteTask : handleSubmitEditTask}>
+    <Modal
+    open={open}
+    onClose={handleCloseModal}
+    aria-labelledby="modal-modal-title"
+    aria-describedby="modal-modal-description"
+    className="flex  w-full justify-center items-center h-screen"
+  >
+    <Box className="flex rounded-lg bg-white justify-center items-center flex-col w-1/3 h-1/3">
+    {modalType === 'delete' ? (
+      <Typography id="modal-modal-title"  className="flex w-full h-1/3 text-xl border-b-2 pl-4 border-black items-center">
+      Are you sure, you want to delete this task?
+      </Typography>
+    ) : (
+      <Typography id="modal-modal-title"  className="flex w-full h-1/3 text-xl border-b-2 pl-4 border-black items-center">
+      Edit your task
+      </Typography>
+    )}
+      <form onSubmit={handleSubmitEditTask} className='w-full flex justify-between h-3/4 items-center pl-2 pr-2'>
+      {modalType !== 'delete' && <input
+          value={editTaskValue}
+          onChange={(e) => setEditTaskValue(e.target.value)}
+          type="text"
+          placeholder="Type here"
+          className="input input-bordered w-2/3 border-2 border-gray-300 rounded-lg h-1/3"
+        />
+    }
+        <div>
+        <button type="submit" className="p-2 mr-2 border-2 rounded-lg border-blue-700 bg-blue-700 text-white" onClick={modalType === 'delete' ?   handleSubmitDeleteTask : handleSubmitEditTask}>
               {modalType === 'delete' ? 'Yes' : 'Submit'}
-            </button>
-            <button type="button" className="btn" onClick={handleCloseModal}>
-              Cancel
-            </button>
-          </DialogFooter>
-        </Dialog>
+        </button>
+        <button type="button" className="p-2 rounded-lg border-2 border-gray-300 " onClick={handleCloseModal}>
+          Cancel
+        </button>
+        </div>
+      </form>
+    </Box>
+  </Modal>
       )}
     </>
  );
