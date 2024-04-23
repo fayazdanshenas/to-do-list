@@ -1,52 +1,92 @@
 import React, { useState, FormEventHandler } from "react";
-import { Button, Dialog, DialogHeader, DialogBody, DialogFooter } from "@material-tailwind/react";
+import { Button } from "@material-tailwind/react";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import Typography from "@mui/material/Typography";
+import { toast } from 'react-toastify';
 
 interface AddTaskProps {
- onAddTask: (task: string) => void;
+  onAddTask: (task: string) => void;
 }
 
 const AddTask: React.FC<AddTaskProps> = ({ onAddTask }) => {
- const [open, setOpen] = useState<boolean>(false);
- const [newTaskValue, setNewTaskValue] = useState<string>('');
+  const [openModal, setOpenModal] = useState<boolean>(false);
+  const [newTaskValue, setNewTaskValue] = useState<string>("");
 
- const toggleOpen = () => setOpen(!open);
+ const handleOpenModal = () => {
+    setOpenModal(!openModal)
+  };
 
- const handleSubmitNewTodo: FormEventHandler<HTMLFormElement> = (e) => {
+  const handleCloseModal = () => {
+    setOpenModal(!openModal)
+    setNewTaskValue("")
+
+  };
+
+  const handleSubmitNewTodo: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
+    if(newTaskValue === "" || !newTaskValue){
+      toast.warning('You should input a value');
+    } else {
     onAddTask(newTaskValue);
     setNewTaskValue("");
-    toggleOpen();
- };
+    handleCloseModal();
+    }
+  };
 
- return (
+  return (
     <>
-      <Button onClick={toggleOpen} variant="gradient" className="rounded-lg border-2 border-blue-300 bg-blue-500 w-6/12 p-2.5">
+      <Button
+        onClick={handleOpenModal}
+        variant="gradient"
+        className="rounded-lg border-2 border-blue-300 bg-blue-500 w-6/12 p-2.5"
+      >
         Add new task
       </Button>
-      <Dialog open={open} handler={toggleOpen} className="bg-orange-500 flex flex-col items-center justify-center w-1/3 h-1/3">
-        <DialogHeader>Add new task</DialogHeader>
-        <DialogBody>
-          <form onSubmit={handleSubmitNewTodo}>
+      <Modal
+        open={openModal}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        className="flex w-full justify-center items-center h-screen"
+      >
+        <Box className="flex rounded-lg bg-white justify-center items-center flex-col md:w-1/3 md:h-1/3 w-11/12 h-2/5">
+          <Typography
+            id="modal-modal-title"
+            className="flex w-full h-1/3 text-xl border-b-2 pl-4 border-black items-center"
+          >
+            Add new task
+          </Typography>
+          <form
+            onSubmit={handleSubmitNewTodo}
+            className="w-full flex flex-col h-3/4 items-center p-4 justify-between"
+          >
             <input
               value={newTaskValue}
               onChange={(e) => setNewTaskValue(e.target.value)}
               type="text"
               placeholder="Type here"
-              className="input input-bordered w-full"
+              className="input input-bordered w-full border-2 border-gray-300 rounded-lg h-1/3 pl-2 focus:border-gray-300 focus:outline-none"
             />
+            <div>
+              <button
+                type="submit"
+                className="p-2 mr-2 border-2 rounded-lg border-black bg-gray-800 text-white w-20"
+              >
+                Submit
+              </button>
+              <button
+                type="button"
+                className="p-2 rounded-lg border-2 border-gray-300 w-20"
+                onClick={handleCloseModal}
+              >
+                Cancel
+              </button>
+            </div>
           </form>
-        </DialogBody>
-        <DialogFooter>
-          <button type="submit" className="btn" onClick={handleSubmitNewTodo}>
-            Submit
-          </button>
-          <button type="button" className="btn" onClick={toggleOpen}>
-            Cancel
-          </button>
-        </DialogFooter>
-      </Dialog>
+        </Box>
+      </Modal>
     </>
- );
+  );
 };
 
 export default AddTask;
