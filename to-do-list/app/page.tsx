@@ -1,6 +1,6 @@
 "use client"
 import React from 'react';
-import TodolisatWrapper from './components/TodolistWrapper';
+import TodolistWrapper from './components/TodolistWrapper';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'tailwindcss/tailwind.css';
@@ -8,7 +8,7 @@ import 'tailwindcss/tailwind.css';
   return (
     <main className=" min-h-screen ">
       <ToastContainer />
-      <TodolisatWrapper />
+      <TodolistWrapper />
     </main>
   );
 }

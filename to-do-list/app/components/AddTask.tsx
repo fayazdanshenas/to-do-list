@@ -25,7 +25,7 @@ const AddTask: React.FC<AddTaskProps> = ({ onAddTask }) => {
   const handleSubmitNewTodo: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     if(newTaskValue === "" || !newTaskValue){
-      toast.warning('You should input a value');
+      toast.warning('Please enter a value for input');
     } else {
     onAddTask(newTaskValue);
     setNewTaskValue("");

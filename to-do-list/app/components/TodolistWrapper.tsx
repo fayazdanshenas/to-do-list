@@ -1,27 +1,13 @@
 "use client"
 import React, { useState } from 'react';
 import AddTask from './AddTask';
-import Tasks from './Tasks';
+import TaskList from './TaskList';
+import useTaskManager from './hooks/useTaskManager'
 
-// Define the Task interface
-interface Task {
-  id: number;
-  text: string;
- }
- const TodolisatWrapper: React.FC = () => {
- const [tasks, setTasks] = useState<Task[]>([]);
 
- const addTask = (task: string) => {
-    setTasks([...tasks, { id: Date.now(), text: task }]);
- };
+const TodolistWrapper: React.FC = () => {
+  const { tasks, addTask, editTask, deleteTask } = useTaskManager();
 
- const editTask = (id: number, newText: string) => {
-    setTasks(tasks.map(task => task.id === id ? { ...task, text: newText } : task));
- };
-
- const deleteTask = (id: number) => {
-    setTasks(tasks.filter(task => task.id !== id));
- };
   return (
     <>
       <div className="text-center my-5 flex flex-col justify-center items-center gap-4 w-full">
@@ -29,10 +15,9 @@ interface Task {
         <AddTask onAddTask={addTask} />
       </div>
       <div className="text-center my-5 flex flex-col justify-center items-center gap-4 w-full">
-        <Tasks
-         tasks={tasks} onEditTask={editTask} onDeleteTask={deleteTask} />
+        <TaskList tasks={tasks} onEditTask={editTask} onDeleteTask={deleteTask} />
       </div>
-      </>
+    </>
   );
 }
-export default TodolisatWrapper
+export default TodolistWrapper
