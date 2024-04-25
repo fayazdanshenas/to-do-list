@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { Task } from '../taskTypes/taskTypes';
+import { Task ,UseTaskManagerReturn} from '../types/taskTypes';
 
 // Custom hook for managing tasks
-const useTaskManager = () => {
+export default function useTaskManager () : UseTaskManagerReturn {
  const [tasks, setTasks] = useState<Task[]>([]);
 
  const addTask = (task: string) => {
@@ -20,4 +20,3 @@ const useTaskManager = () => {
  return { tasks, addTask, editTask, deleteTask };
 };
 
-export default useTaskManager;

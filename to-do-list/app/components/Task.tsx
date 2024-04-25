@@ -1,8 +1,8 @@
 import React from "react";
 import { TrashIcon, PencilIcon } from "@heroicons/react/solid";
 import {Button} from "@material-tailwind/react";
-import {TaskProps} from './taskTypes/taskTypes';
-import  useModal from './Hooks/useModal';
+import {TaskProps} from '../types/taskTypes';
+import  useModal from '../hooks/useModal';
 import ModalComponent from "./ModalComponent";
 
 const Task: React.FC<TaskProps> = ({ task , onEditTask, onDeleteTask}) => {
@@ -11,8 +11,8 @@ const Task: React.FC<TaskProps> = ({ task , onEditTask, onDeleteTask}) => {
     modalType,
     handleOpenModal,
     handleCloseModal,
- } = useModal(task.text);
- 
+ } = useModal();
+
   return (
     <>
       <li className="bg-gray-300 mb-3 rounded-lg border-2 flex justify-between p-2">
@@ -35,8 +35,8 @@ const Task: React.FC<TaskProps> = ({ task , onEditTask, onDeleteTask}) => {
       {modalOpen && (
         <ModalComponent 
           task={task} 
-          modalOpen={modalOpen}
           modalType={modalType}
+          modalOpen={modalOpen}
           onEditTask={onEditTask}
           onDeleteTask={onDeleteTask}
           handleCloseModal={handleCloseModal}

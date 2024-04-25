@@ -1,8 +1,8 @@
 "use client"
-import React, { useState } from 'react';
+import React from 'react';
 import AddTask from './AddTask';
 import TaskList from './TaskList';
-import useTaskManager from './hooks/useTaskManager'
+import useTaskManager from '../hooks/useTaskManager'
 
 
 const TodolistWrapper: React.FC = () => {

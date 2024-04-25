@@ -1,7 +1,7 @@
 // TaskList.tsx
 import React from "react";
 import Task from "./Task";
-import { TaskListProps} from "../components/taskTypes/taskTypes";
+import { TaskListProps} from "../types/taskTypes";
 
 
 const TaskList: React.FC<TaskListProps> = ({ tasks, onEditTask, onDeleteTask }) => {
